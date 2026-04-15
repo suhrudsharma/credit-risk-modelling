@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Risk Modeling Dashboard | Loan Default Prediction</title>
+    <meta name="description" content="Interactive credit risk modeling dashboard featuring ML model comparison, ROC analysis, and real-time loan risk prediction built with Python, R, and Chart.js.">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- AOS — Animate On Scroll -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ====== SCROLL PROGRESS BAR ====== -->
+    <div id="scrollProgress"></div>
+
+    <!-- ====== LOADER ====== -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-ring">
+                <div></div><div></div><div></div>
+            </div>
+            <p class="loader-text">Initializing Dashboard<span class="dots"></span></p>
+        </div>
+    </div>
+
+    <!-- ====== NAVIGATION ====== -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <i class="fas fa-shield-halved"></i>
+                <span>CreditRisk<span class="accent">AI</span></span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#metrics">Metrics</a></li>
+                <li><a href="#comparison">Models</a></li>
+                <li><a href="#roc">ROC Curve</a></li>
+                <li><a href="#analysis">Analysis</a></li>
+                <li><a href="#calculator">Calculator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ====== HERO SECTION ====== -->
+    <section id="hero">
+        <div class="hero-bg">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-badge" data-aos="fade-down" data-aos-duration="600">
+                <i class="fas fa-sparkles"></i>
+                <span>Statistical &amp; Machine Learning Analysis</span>
+            </div>
+            <h1 data-aos="fade-up" data-aos-duration="800">
+                Credit Risk<br>
+                <span class="gradient-text">Modeling Dashboard</span>
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="150">
+                Predicting loan defaults with logistic regression, decision trees, random forests &amp; XGBoost.
+                <br>Built on 50,000+ real LendingClub records using R &amp; Python.
+            </p>
+            <div class="hero-stats" data-aos="fade-up" data-aos-delay="300">
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="50000">0</span>
+                    <span class="stat-label">Loans Analyzed</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="5">0</span>
+                    <span class="stat-label">Models Trained</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="stat-number" data-count="10">0</span>
+                    <span class="stat-label">Key Features</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="stat-number">A–G</span>
+                    <span class="stat-label">Risk Grades</span>
+                </div>
+            </div>
+            <a href="#metrics" class="hero-cta" data-aos="fade-up" data-aos-delay="450">
+                Explore Results <i class="fas fa-arrow-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- ====== KEY METRICS ====== -->
+    <section id="metrics">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag"><i class="fas fa-chart-simple"></i> Performance Overview</span>
+                <h2>Key Model Metrics</h2>
+                <p>Best-performing statistics across all five trained models</p>
+            </div>
+            <div class="metrics-grid" id="metricsGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== MODEL COMPARISON TABLE ====== -->
+    <section id="comparison">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag"><i class="fas fa-scale-balanced"></i> Model Evaluation</span>
+                <h2>Model Comparison</h2>
+                <p>Head-to-head performance of every trained model</p>
+            </div>
+            <div class="table-wrapper glass-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="table-scroll">
+                    <table id="comparisonTable">
+                        <!-- Populated by JS -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== ROC CURVE ====== -->
+    <section id="roc">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag"><i class="fas fa-bezier-curve"></i> Discriminative Power</span>
+                <h2>ROC Curve Analysis</h2>
+                <p>Receiver Operating Characteristic — higher area under curve = better classifier</p>
+            </div>
+            <div class="chart-container glass-card chart-lg" data-aos="fade-up" data-aos-delay="100">
+                <canvas id="rocChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== ANALYSIS: FEATURE IMPORTANCE + DEFAULT BY GRADE ====== -->
+    <section id="analysis">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag"><i class="fas fa-magnifying-glass-chart"></i> Deep Dive</span>
+                <h2>Risk Factor Analysis</h2>
+                <p>What drives loan default predictions — feature contributions and grade-level risk</p>
+            </div>
+            <div class="charts-row">
+                <div class="chart-container glass-card" data-aos="fade-right" data-aos-delay="100">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-ranking-star"></i> Feature Importance</h3>
+                        <p>Random Forest contribution scores (%)</p>
+                    </div>
+                    <canvas id="featureChart"></canvas>
+                </div>
+                <div class="chart-container glass-card" data-aos="fade-left" data-aos-delay="200">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-layer-group"></i> Default Rate by Grade</h3>
+                        <p>Loan default probability across LendingClub grades</p>
+                    </div>
+                    <canvas id="gradeChart"></canvas>
+                </div>
+            </div>
+            <div class="charts-row single" data-aos="fade-up" data-aos-delay="100">
+                <div class="chart-container glass-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-money-bill-trend-up"></i> Income vs Default Rate</h3>
+                        <p>Probability of default across income quintiles — from R statistical analysis</p>
+                    </div>
+                    <canvas id="incomeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== LOAN RISK CALCULATOR ====== -->
+    <section id="calculator">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag"><i class="fas fa-calculator"></i> Interactive Tool</span>
+                <h2>Loan Risk Calculator</h2>
+                <p>Enter borrower details to estimate the probability of loan default</p>
+            </div>
+            <div class="calculator-layout" data-aos="fade-up" data-aos-delay="100">
+                <div class="calc-inputs glass-card">
+                    <h3><i class="fas fa-sliders"></i> Borrower Details</h3>
+                    <div class="input-group">
+                        <label for="calcIncome"><i class="fas fa-wallet"></i> Annual Income ($)</label>
+                        <input type="number" id="calcIncome" value="60000" min="0" max="2000000" placeholder="e.g. 60000">
+                    </div>
+                    <div class="input-group">
+                        <label for="calcLoan"><i class="fas fa-hand-holding-dollar"></i> Loan Amount ($)</label>
+                        <input type="number" id="calcLoan" value="15000" min="0" max="100000" placeholder="e.g. 15000">
+                    </div>
+                    <div class="input-group">
+                        <label for="calcFico"><i class="fas fa-star"></i> Credit Score (FICO)</label>
+                        <input type="number" id="calcFico" value="700" min="300" max="850" placeholder="300–850">
+                    </div>
+                    <div class="input-group">
+                        <label for="calcRate"><i class="fas fa-percent"></i> Interest Rate (%)</label>
+                        <input type="number" id="calcRate" value="12" min="0" max="35" step="0.1" placeholder="e.g. 12.5">
+                    </div>
+                    <button id="predictBtn" onclick="predictRisk()">
+                        <i class="fas fa-bolt"></i> Predict Risk
+                    </button>
+                </div>
+                <div class="calc-result glass-card" id="calcResult">
+                    <div class="result-placeholder">
+                        <div class="placeholder-icon">
+                            <i class="fas fa-shield-halved"></i>
+                        </div>
+                        <p>Enter borrower details and click<br><strong>Predict Risk</strong> to see results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-shield-halved"></i> CreditRisk<span class="accent">AI</span></h3>
+                    <p>Credit Risk Modeling — Loan Default Prediction</p>
+                    <p class="footer-reg">Probability &amp; Statistics Course Project<br>Reg: 24BIT0043</p>
+                </div>
+                <div class="footer-tech">
+                    <h4>Technology Stack</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+                        <span class="tech-badge"><i class="fab fa-r-project"></i> R</span>
+                        <span class="tech-badge"><i class="fas fa-chart-bar"></i> Chart.js</span>
+                        <span class="tech-badge"><i class="fab fa-github"></i> GitHub Pages</span>
+                        <span class="tech-badge"><i class="fas fa-brain"></i> Scikit-learn</span>
+                        <span class="tech-badge"><i class="fas fa-bolt"></i> XGBoost</span>
+                    </div>
+                </div>
+                <div class="footer-methods">
+                    <h4>Methods Used</h4>
+                    <ul>
+                        <li>Logistic Regression (GLM)</li>
+                        <li>SMOTE Class Balancing</li>
+                        <li>ROC-AUC Evaluation</li>
+                        <li>Basel II Expected Loss</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Credit Risk Modeling Dashboard. Built with data from LendingClub.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== SCRIPTS ====== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

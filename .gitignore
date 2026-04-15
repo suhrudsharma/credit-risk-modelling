@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Temporary helper files (Colab copy-paste guides)
+R_Colab_Codes.md
+Python_Colab_Codes.md
+
+# Placeholder files
+results/info.json
+notebooks/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Logs
+*.log
