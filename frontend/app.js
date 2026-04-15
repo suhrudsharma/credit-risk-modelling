@@ -229,6 +229,7 @@ function renderROCChart(rocData) {
         return {
             label: name,
             data: points,
+            showLine: true,
             borderColor: color,
             backgroundColor: 'transparent',
             borderWidth: 2.5,
@@ -243,6 +244,7 @@ function renderROCChart(rocData) {
     datasets.push({
         label: 'Random (AUC = 0.5)',
         data: [{ x: 0, y: 0 }, { x: 1, y: 1 }],
+        showLine: true,
         borderColor: 'rgba(255, 255, 255, 0.15)',
         borderWidth: 1.5,
         borderDash: [6, 4],
